@@ -10,7 +10,6 @@ from sub_generator.oc_generator import generate_objc_interface, generate_objc_im
 from utils import *
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
-definition_dir = os.path.join(base_dir, 'definition_yaml_files')
 
 def main(yaml_files_list_file):
     license = '''// Copyright 2024 The Lynx Authors. All rights reserved.
@@ -53,27 +52,20 @@ def main(yaml_files_list_file):
                             entry_mapping[key] = class_name
 
             # Handle special characters to generate ignore rules.
-            tsIgnore = False
-            javaIgnore = False
-            ocIgnore = False
-            if 'x-ignore-ts' in definition:
-                tsIgnore = definition['x-ignore-ts']
-            if 'x-ignore-java' in definition:
-                javaIgnore = definition['x-ignore-java']
-            if 'x-ignore-oc' in definition:
-                ocIgnore = definition['x-ignore-oc']
+            tsOnly = False
+            if 'x-ts-only' in definition:
+                tsOnly = definition['x-ts-only']
 
-            if not tsIgnore:
-                ts_interface = generate_ts(class_name, definition, items, ts_imports)
-                ts_interfaces.append(ts_interface)
+            ts_interface = generate_ts(class_name, definition, items, ts_imports)
+            ts_interfaces.append(ts_interface)
 
-            if not javaIgnore:
+            if not tsOnly:
                 # generate java code
                 java_code = generate_java(class_name, definition, items, java_imports)
                 if java_code:
                     java_codes.append(java_code)
                 # write file
-                java_output = license
+                java_output = get_license(2024)
                 if(not java_imports) and (java_codes != []):
                     java_output += 'package com.lynx.tasm.performance.performanceobserver;\n\n' + '\n'.join(java_codes)
                     write_file(os.path.join(java_output_file_path, f'{class_name}.java'), java_output)
@@ -81,7 +73,7 @@ def main(yaml_files_list_file):
                     java_output += 'package com.lynx.tasm.performance.performanceobserver;\n\n' + '\n'.join(java_imports) + '\n\n' + '\n'.join(java_codes)
                     write_file(os.path.join(java_output_file_path, f'{class_name}.java'), java_output)
 
-            if not ocIgnore:
+            if not tsOnly:
                 # generate objc header code
                 objc_header = generate_objc_interface(class_name, definition, items, objc_imports)
                 if objc_header:
@@ -93,7 +85,7 @@ def main(yaml_files_list_file):
                     objc_implementations.append(objc_implementation)
                     
                 # write header file
-                objc_output = license
+                objc_output = get_license(2024)
                 if (not objc_imports) and (objc_headers != []):
                     objc_output += '\n'.join(objc_headers)
                     write_file(os.path.join(objc_header_output_file_path, f'{objc_lynx_prefix}{class_name}.h'), objc_output)
@@ -101,13 +93,13 @@ def main(yaml_files_list_file):
                     objc_output += '\n'.join(objc_imports) + '\n\n' + '\n'.join(objc_headers)
                     write_file(os.path.join(objc_header_output_file_path, f'{objc_lynx_prefix}{class_name}.h'), objc_output)
                 # write impl file
-                objc_implementation_output = license
+                objc_implementation_output = get_license(2024)
                 if (objc_implementations != []):
                     objc_implementation_output += '\n'.join(objc_implementations_imports) + '\n\n' + '\n'.join(objc_implementations)
                     write_file(os.path.join(objc_impl_output_file_path, f'{objc_lynx_prefix}{class_name}.m'), objc_implementation_output)
         
     # generate ts interface
-    ts_output = license
+    ts_output = get_license(2024)
     ts_output += '\n'.join(ts_interfaces)
     ts_file_name = 'lynx-performance-entry.d.ts'
     write_file(os.path.join(ts_output_file_path, ts_file_name), ts_output)
@@ -117,16 +109,16 @@ def main(yaml_files_list_file):
     # Java
     java_converter_imports = []
     java_converter_code = generate_java_converter(entry_mapping, java_converter_imports)
-    java_output = license
+    java_output = get_license(2024)
     java_output += '\n'.join(java_converter_imports) + '\n\n' + java_converter_code
     write_file(os.path.join(java_output_file_path, f'{converter_name}.java'), java_output)
     # objc
-    objc_converter_header = license
+    objc_converter_header = get_license(2024)
     objc_converter_header += generate_objc_converter_header()
     write_file(os.path.join(objc_header_output_file_path, f'{objc_lynx_prefix}{converter_name}.h'), objc_converter_header)
     objc_converter_imports = []
     objc_converter_code = generate_objc_converter(entry_mapping, objc_converter_imports)
-    objc_output = license
+    objc_output = get_license(2024)
     objc_output += '\n'.join(objc_converter_imports) + '\n\n' + objc_converter_code
     write_file(os.path.join(objc_impl_output_file_path, f'{objc_lynx_prefix}{converter_name}.m'), objc_output)
 

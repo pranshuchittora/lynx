@@ -39,3 +39,9 @@ def resolve_ref(ref, definitions, base_dir):
     data = read_yaml_file(ref_path)
     definitions[ref_path] = data
     return data
+
+def get_license(year):
+    license = f'''// Copyright {year} The Lynx Authors. All rights reserved.
+// Licensed under the Apache License Version 2.0 that can be found in the
+// LICENSE file in the root directory of this source tree.\n'''
+    return license

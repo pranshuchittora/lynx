@@ -1,13 +1,11 @@
 FrameworkPipelineTiming:
   type: object
-  x-ignore-java: true
-  x-ignore-oc: true
+  x-ts-only: true
 
 PipelineEntry:
   x-type: pipeline
   x-name:
     - updateTriggeredByBts
-    - updateTriggeredByNts
     - updateTriggeredByNative
     - reactHydrate
     - setNativeProps
