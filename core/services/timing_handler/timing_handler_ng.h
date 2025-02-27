@@ -64,6 +64,10 @@ class TimingHandlerNg {
     timing_info_.SetEnableEngineCallback(enable_engine_callback);
   };
 
+  inline void SetEnableBackgroundRuntime(bool enable_background_runtime) {
+    timing_info_.SetEnableBackgroundRuntime(enable_background_runtime);
+  }
+
  private:
   // Internal storage and delegate for timing information.
   TimingInfoNg timing_info_;

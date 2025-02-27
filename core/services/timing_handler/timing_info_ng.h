@@ -47,6 +47,12 @@ class TimingInfoNg {
   inline bool GetEnableEngineCallback() const {
     return enable_engine_callback_;
   }
+  inline void SetEnableBackgroundRuntime(bool enable_background_runtime) {
+    enable_background_runtime_ = enable_background_runtime;
+  }
+  inline void SetLoadBundlePipelineId(const PipelineID& pipeline_id) {
+    load_bundle_pipeline_id_ = pipeline_id;
+  }
 
   // This logic is to ensure compatibility with the old js_app markTiming
   // API. The old js_app markTiming API takes TimingFlag as a parameter and
@@ -104,14 +110,18 @@ class TimingInfoNg {
   void ClearAllTimingInfo();
 
  private:
+  bool UpdateMetrics(const std::string& name, const std::string& start_name,
+                     const std::string& end_name, uint64_t start_time,
+                     uint64_t end_time);
+
   // Note: All data is not meant to be overwritten! If you need to overwrite any
   // data, you must clear it first using ClearInitTimingInfo or
   // ClearPipelineTimingInfo before reconfiguring it.
 
-  // load_bundle_timing_map_ stores loadBundleEntry. The cache is used so that
-  // pipelines other than the LoadBundlePipeline can also obtain
+  // load_bundle_pipeline_id_ refer to loadBundleEntry. The cache is used so
+  // that pipelines other than the LoadBundlePipeline can also obtain
   // loadBundle-related timing, such as for the calculation of metrics like FMP.
-  TimingMap load_bundle_timing_map_;
+  PipelineID load_bundle_pipeline_id_{""};
   // pipeline_timing_info_ stores all the related data of each pipeline, from
   // loadBundleStart to paintEnd, indexed by pipelineId.
   std::unordered_map<PipelineID, TimingMap> pipeline_timing_info_;
@@ -140,6 +150,7 @@ class TimingInfoNg {
 
   // Other properties for tracking state and configuration.
   bool enable_engine_callback_{false};
+  bool enable_background_runtime_{true};
   std::shared_ptr<pub::PubValueFactory> value_factory_ = nullptr;
 };
 }  // namespace timing
