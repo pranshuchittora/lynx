@@ -7,7 +7,10 @@ package com.lynx.tasm;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hardware.display.DisplayManager;
+import android.os.Build;
 import android.text.TextUtils;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.AnyThread;
 import androidx.annotation.Keep;
@@ -45,6 +48,7 @@ import com.lynx.tasm.behavior.shadow.text.TextRendererCache;
 import com.lynx.tasm.behavior.ui.background.BackgroundImageLoader;
 import com.lynx.tasm.behavior.utils.LynxUIMethodsHolderAutoRegister;
 import com.lynx.tasm.behavior.utils.PropsHolderAutoRegister;
+import com.lynx.tasm.core.VSyncMonitor;
 import com.lynx.tasm.fluency.FluencySample;
 import com.lynx.tasm.icu.ICURegister;
 import com.lynx.tasm.provider.AbsNetworkingModuleProvider;
@@ -171,6 +175,9 @@ public class LynxEnv {
   protected boolean mEnableSVGAsync = false;
   protected boolean mEnableGenericResourceFetcher = false;
   protected boolean mEnableTextBoringLayout = true;
+
+  // TODO (linxs): We will remove this setting after sufficient verification following version 3.2.
+  protected boolean mEnableRefreshRateOpt = true;
   protected boolean mEnableCheckAccessFromNonUIThread = false;
 
   protected final Object mLazyInitLock = new Object();
@@ -304,6 +311,7 @@ public class LynxEnv {
     initEnableSvgAsync();
     initEnableGenericResourceFetcher();
     initEnableTextBoringLayout();
+    initEnableRefreshRateOpt();
     initEnableCheckAccessFromNonUiThread();
 
     ICURegister.loadLibrary(mLibraryLoader);
@@ -315,6 +323,9 @@ public class LynxEnv {
     } else {
       LLog.w(TAG, "LynxEnv failed to get LynxExtensionService");
     }
+
+    // vsyncMonitor related
+    initVsyncMonitor();
   }
 
   /**
@@ -1270,6 +1281,10 @@ public class LynxEnv {
     return this.mEnableTextBoringLayout;
   }
 
+  public boolean enableFreshRateOpt() {
+    return this.mEnableRefreshRateOpt;
+  }
+
   public boolean enableCheckAccessFromNonUIThread() {
     return this.mEnableCheckAccessFromNonUIThread;
   }
@@ -1281,6 +1296,10 @@ public class LynxEnv {
 
   protected void initEnableTextBoringLayout() {
     mEnableTextBoringLayout = getBooleanFromExternalEnv(LynxEnvKey.ENABLE_TEXT_BORING_LAYOUT, true);
+  }
+
+  protected void initEnableRefreshRateOpt() {
+    mEnableRefreshRateOpt = getBooleanFromExternalEnv(LynxEnvKey.ENABLE_REFRESH_RATE_OPT, true);
   }
 
   protected void initEnableCheckAccessFromNonUiThread() {
@@ -1413,6 +1432,18 @@ public class LynxEnv {
   public void forceDisableQuickJsCache() {
     mForceDisableQuickJsCache = true;
     setBooleanLocalEnv(LynxEnvKey.FORCE_DISABLE_QUICKJS_CACHE, mForceDisableQuickJsCache);
+  }
+
+  private void initVsyncMonitor() {
+    if (enableFreshRateOpt()) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        VSyncMonitor.setCurrentDisplayManager(
+            (DisplayManager) mContext.getSystemService(Context.DISPLAY_SERVICE));
+      } else {
+        VSyncMonitor.setCurrentWindowManager(
+            (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE));
+      }
+    }
   }
 
   protected static native void nativePrepareLynxGlobalPool();

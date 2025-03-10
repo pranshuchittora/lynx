@@ -34,7 +34,8 @@ public enum LynxEnvKey {
   ENABLE_GENERIC_RESOURCE_FETCHER("enable_generic_resource_fetcher"),
   ENABLE_TEXT_BORING_LAYOUT("enable_text_boring_layout"),
   ENABLE_LIFECYCLE_TIME_REPORT("enable_lifecycle_time_report"),
-  ENABLE_STABLE_TRANSLATE_Z_SORTING("enable_stable_translate_z_sorting");
+  ENABLE_STABLE_TRANSLATE_Z_SORTING("enable_stable_translate_z_sorting"),
+  ENABLE_REFRESH_RATE_OPT("enable_refresh_rate_opt");
 
   private final String description;
 

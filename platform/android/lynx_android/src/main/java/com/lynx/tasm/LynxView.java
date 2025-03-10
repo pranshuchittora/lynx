@@ -122,8 +122,13 @@ public class LynxView extends UIBodyView {
 
   private void initialize(Context context, LynxViewBuilder builder) {
     setFocusableInTouchMode(true);
-    VSyncMonitor.setCurrentWindowManager(
-        (WindowManager) context.getSystemService(Context.WINDOW_SERVICE));
+
+    // TODO(linxs):to be deleted after 3.2
+    if (!LynxEnv.inst().enableFreshRateOpt()) {
+      VSyncMonitor.setCurrentWindowManager(
+          (WindowManager) context.getSystemService(Context.WINDOW_SERVICE));
+    }
+
     // We try to get Choreographer of ui thread here. It used to be called on LynxEnv init, but in
     // some cases RuntimeException will be thrown either because the timing is too early or file
     // descriptor leaks. So instead we get Choreographer here to avoid RuntimeException. Actually,
