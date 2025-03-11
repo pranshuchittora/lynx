@@ -26,11 +26,29 @@ namespace lynx {
 namespace base {
 namespace android {
 
+// TODO(zhangqun.29) remove convert function in methodInvoker.cc
+namespace converter {
+template <typename T>
+static jobject valueOf(JNIEnv* env, jclass c, const char* signature,
+                       const T& value);
+template <typename T>
+static double doubleValue(JNIEnv* env, jclass c, const T& value);
+jobject charValueOf(JNIEnv* env, jchar value);
+jobject byteValueOf(JNIEnv* env, jbyte value);
+jobject booleanValueOf(JNIEnv* env, jboolean value);
+jobject shortValueOf(JNIEnv* env, jshort value);
+jobject integerValueOf(JNIEnv* env, jint value);
+jobject longValueOf(JNIEnv* env, jlong value);
+jobject floatValueOf(JNIEnv* env, jfloat value);
+jobject doubleValueOf(JNIEnv* env, jdouble value);
+}  // namespace converter
+
 class JavaValue {
  public:
   enum class JavaValueType {
     Null = 0,
     Boolean,
+    Float,
     Double,
     Int32,
     Int64,
@@ -43,6 +61,7 @@ class JavaValue {
   JavaValue() : type_(JavaValueType::Null) {}
   JavaValue(bool value);
   JavaValue(double value);
+  JavaValue(float value);
   JavaValue(int32_t value);
   JavaValue(int64_t value);
   JavaValue(const std::string& value);
@@ -65,14 +84,17 @@ class JavaValue {
   bool IsPrimitiveType() {
     return type_ == JavaValueType::Null || type_ == JavaValueType::Boolean ||
            type_ == JavaValueType::Double || type_ == JavaValueType::Int32 ||
-           type_ == JavaValueType::Int64;
+           type_ == JavaValueType::Int64 || type_ == JavaValueType::Float;
   }
 
   bool IsBool() const { return type_ == JavaValueType::Boolean; }
   bool IsInt32() const { return type_ == JavaValueType::Int32; }
   bool IsInt64() const { return type_ == JavaValueType::Int64; }
   bool IsDouble() const { return type_ == JavaValueType::Double; }
-  bool IsNumber() const { return IsInt32() || IsInt64() || IsDouble(); }
+  bool IsFloat() const { return type_ == JavaValueType::Float; }
+  bool IsNumber() const {
+    return IsInt32() || IsInt64() || IsDouble() || IsFloat();
+  }
 
   bool IsNull() const { return type_ == JavaValueType::Null; }
   bool IsString() const { return type_ == JavaValueType::String; }
@@ -84,6 +106,7 @@ class JavaValue {
   int32_t Int32() const;
   int64_t Int64() const;
   double Double() const;
+  float Float() const;
   uint8_t* ArrayBuffer() const;
   const std::string& String() const;
   const std::shared_ptr<base::android::JavaOnlyArray>& Array() const {
@@ -111,6 +134,25 @@ class JavaValue {
   JavaValue GetValueForIndex(uint32_t index) const;
 
   JavaValueType type() const { return type_; }
+
+  // Wrapper JValue
+  jvalue JByte() const;
+  jvalue WrapperJByte() const;
+  jvalue JChar() const;
+  jvalue WrapperJChar() const;
+  jvalue JBoolean() const;
+  jvalue WrapperJBoolean() const;
+  jvalue JShort() const;
+  jvalue WrapperJShort() const;
+  jvalue JInt() const;
+  jvalue WrapperJInt() const;
+  jvalue JLong() const;
+  jvalue WrapperJLong() const;
+  jvalue JFloat() const;
+  jvalue WrapperJFloat() const;
+  jvalue JDouble() const;
+  jvalue WrapperJDouble() const;
+  jvalue JNull() const;
 
  private:
   JavaValueType type_{JavaValueType::Null};

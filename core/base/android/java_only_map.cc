@@ -179,6 +179,8 @@ void JavaOnlyMap::PushJavaValue(const std::string& key,
     case JavaValue::JavaValueType::Map:
       PushMap(key, value.Map().get());
       break;
+    default:
+      break;
   }
 }
 

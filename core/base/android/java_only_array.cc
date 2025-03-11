@@ -139,6 +139,8 @@ void JavaOnlyArray::PushJavaValue(const JavaValue& value) {
     case JavaValue::JavaValueType::Map:
       PushMap(value.Map().get());
       break;
+    default:
+      break;
   }
 }
 
