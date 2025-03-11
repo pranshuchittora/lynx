@@ -88,8 +88,6 @@ class MockTasmDelegate : public TemplateAssembler::Delegate,
       tasm::TemplateData init_data,
       const tasm::PipelineOptions& pipeline_options) override;
   virtual void OnLifecycleEvent(const lepus::Value& args) override;
-  virtual void PrintMsgToJS(const std::string& level,
-                            const std::string& msg) override;
 
   virtual void SendAnimationEvent(const char* type, int tag,
                                   const lepus::Value& dict) override;

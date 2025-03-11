@@ -2430,12 +2430,21 @@ void TemplateAssembler::OnDynamicJSSourcePrepared(
   delegate_.DispatchMessageEvent(std::move(event));
 }
 
-void TemplateAssembler::PrintMsgToJS(const std::string& level,
-                                     const std::string& msg) {
-  delegate_.PrintMsgToJS(level, msg);
+void TemplateAssembler::OnBTSConsoleEvent(const std::string& func_name,
+                                          const std::string& args) {
+  auto params = lepus::Dictionary::Create();
+  BASE_STATIC_STRING_DECL(kFuncName, "func_name");
+  BASE_STATIC_STRING_DECL(kParams, "params");
+  params->SetValue(kFuncName, func_name);
+  params->SetValue(kParams, args);
+  runtime::MessageEvent event(runtime::kMessageEventTypeOnBTSConsoleEvent,
+                              runtime::ContextProxy::Type::kCoreContext,
+                              runtime::ContextProxy::Type::kJSContext,
+                              lepus::Value(std::move(params)));
+  delegate_.DispatchMessageEvent(std::move(event));
   // Post msg to devtool when using LynxAir, which doesn't have js runtime.
   if (lepus_observer_ != nullptr) {
-    lepus_observer_->OnConsoleMessage(level, msg);
+    lepus_observer_->OnConsoleEvent(func_name, args);
   }
 }
 

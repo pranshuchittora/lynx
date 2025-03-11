@@ -35,43 +35,43 @@ Value Console_Log(VMContext* context) {
 #ifdef LEPUS_PC
   LOGE(msg);
 #endif
-  context->PrintMsgToJS("log", msg);
+  context->OnBTSConsoleEvent("log", msg);
   return Value();
 }
 
 Value Console_Warn(VMContext* context) {
   std::string msg = GetPrintStr(context);
-  context->PrintMsgToJS("warn", msg);
+  context->OnBTSConsoleEvent("warn", msg);
   return Value();
 }
 
 Value Console_Error(VMContext* context) {
   std::string msg = GetPrintStr(context);
-  context->PrintMsgToJS("error", msg);
+  context->OnBTSConsoleEvent("error", msg);
   return Value();
 }
 
 Value Console_Info(VMContext* context) {
   std::string msg = GetPrintStr(context);
-  context->PrintMsgToJS("info", msg);
+  context->OnBTSConsoleEvent("info", msg);
   return Value();
 }
 
 Value Console_Debug(VMContext* context) {
   std::string msg = GetPrintStr(context);
-  context->PrintMsgToJS("debug", msg);
+  context->OnBTSConsoleEvent("debug", msg);
   return Value();
 }
 
 Value Console_Report(VMContext* context) {
   std::string msg = GetPrintStr(context);
-  context->PrintMsgToJS("report", msg);
+  context->OnBTSConsoleEvent("report", msg);
   return Value();
 }
 
 Value Console_Alog(VMContext* context) {
   std::string msg = GetPrintStr(context);
-  context->PrintMsgToJS("alog", msg);
+  context->OnBTSConsoleEvent("alog", msg);
   return Value();
 }
 

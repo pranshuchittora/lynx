@@ -20,7 +20,8 @@ class ContextDelegateTest : public lepus::Context::Delegate {
     return sdk_version;
   };
   virtual void ReportError(base::LynxError error){};
-  virtual void PrintMsgToJS(const std::string& level, const std::string& msg){};
+  virtual void OnBTSConsoleEvent(const std::string& func_name,
+                                 const std::string& args){};
   virtual void ReportGCTimingEvent(const char* start, const char* end){};
   virtual fml::RefPtr<fml::TaskRunner> GetLepusTimedTaskRunner() {
     return nullptr;

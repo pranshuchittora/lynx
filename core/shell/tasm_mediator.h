@@ -141,8 +141,6 @@ class TasmMediator : public LynxEngine::Delegate {
 
   void OnLifecycleEvent(const lepus::Value& data) override;
 
-  void PrintMsgToJS(const std::string& level, const std::string& msg) override;
-
   void OnI18nResourceChanged(const std::string& res) override;
 
   void OnComponentDecoded(tasm::TasmRuntimeBundle bundle) override;

@@ -184,8 +184,6 @@ class TemplateAssembler final
                                const PipelineOptions& pipeline_options) = 0;
     virtual void OnGlobalPropsUpdated(const lepus::Value& props) = 0;
     virtual void OnLifecycleEvent(const lepus::Value& args) = 0;
-    virtual void PrintMsgToJS(const std::string& level,
-                              const std::string& msg) = 0;
     virtual void OnI18nResourceChanged(const std::string& res) = 0;
     virtual void RequestVsync(
         uintptr_t id,
@@ -617,9 +615,8 @@ class TemplateAssembler final
 
   const std::string& TargetSdkVersion() override { return target_sdk_version_; }
 
-  // print js console log
-  // level: log, warn, error, info, debug
-  void PrintMsgToJS(const std::string& level, const std::string& msg) override;
+  void OnBTSConsoleEvent(const std::string& func_name,
+                         const std::string& args) override;
 
   bool UseLepusNG();
 

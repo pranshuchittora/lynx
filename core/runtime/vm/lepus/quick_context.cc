@@ -49,7 +49,7 @@ static std::string GetPrintStr(LEPUSContext* ctx, int32_t argc,
 RENDERER_FUNCTION(Console_Log) {
   lepus::Context* lctx = lepus::QuickContext::GetFromJsContext(ctx);
   std::string result = GetPrintStr(ctx, argc, argv);
-  lctx->PrintMsgToJS("log", "[main-thread.js] " + result);
+  lctx->OnBTSConsoleEvent("log", "[main-thread.js] " + result);
 
 #if defined(LEPUS_PC)
   LOGI("[main-thread.js] " + result);
@@ -82,20 +82,20 @@ RENDERER_FUNCTION(Console_ProfileEnd) {
 RENDERER_FUNCTION(Console_ALog) {
   lepus::Context* lctx = lepus::QuickContext::GetFromJsContext(ctx);
   std::string result = GetPrintStr(ctx, argc, argv);
-  lctx->PrintMsgToJS("alog", "[main-thread.js] " + result);
+  lctx->OnBTSConsoleEvent("alog", "[main-thread.js] " + result);
   return LEPUS_UNDEFINED;
 }
 
 RENDERER_FUNCTION(Console_Report) {
   lepus::Context* lctx = lepus::QuickContext::GetFromJsContext(ctx);
   std::string result = GetPrintStr(ctx, argc, argv);
-  lctx->PrintMsgToJS("report", "[main-thread.js] " + result);
+  lctx->OnBTSConsoleEvent("report", "[main-thread.js] " + result);
   return LEPUS_UNDEFINED;
 }
 RENDERER_FUNCTION(Console_Error) {
   lepus::Context* lctx = lepus::QuickContext::GetFromJsContext(ctx);
   std::string result = GetPrintStr(ctx, argc, argv);
-  lctx->PrintMsgToJS("error", "[main-thread.js] " + result);
+  lctx->OnBTSConsoleEvent("error", "[main-thread.js] " + result);
   const std::string result_msg = "console.error: \n\n" + result;
   lctx->ReportErrorWithMsg(result_msg, error::E_MTS_RUNTIME_ERROR);
   return LEPUS_UNDEFINED;
@@ -104,21 +104,21 @@ RENDERER_FUNCTION(Console_Error) {
 RENDERER_FUNCTION(Console_Warn) {
   lepus::Context* lctx = lepus::QuickContext::GetFromJsContext(ctx);
   std::string result = GetPrintStr(ctx, argc, argv);
-  lctx->PrintMsgToJS("warn", "[main-thread.js] " + result);
+  lctx->OnBTSConsoleEvent("warn", "[main-thread.js] " + result);
   return LEPUS_UNDEFINED;
 }
 
 RENDERER_FUNCTION(Console_Debug) {
   lepus::Context* lctx = lepus::QuickContext::GetFromJsContext(ctx);
   std::string result = GetPrintStr(ctx, argc, argv);
-  lctx->PrintMsgToJS("debug", "[main-thread.js] " + result);
+  lctx->OnBTSConsoleEvent("debug", "[main-thread.js] " + result);
   return LEPUS_UNDEFINED;
 }
 
 RENDERER_FUNCTION(Console_Info) {
   lepus::Context* lctx = lepus::QuickContext::GetFromJsContext(ctx);
   std::string result = GetPrintStr(ctx, argc, argv);
-  lctx->PrintMsgToJS("info", "[main-thread.js] " + result);
+  lctx->OnBTSConsoleEvent("info", "[main-thread.js] " + result);
   return LEPUS_UNDEFINED;
 }
 
@@ -198,8 +198,8 @@ void QuickContext::SetSourceMapRelease(const lepus::Value& source_map_release) {
   common::JSErrorInfo args;
   args.message = source_map_release.GetProperty(kMessage).StdString();
   args.stack = source_map_release.GetProperty(kStack).StdString();
-  PrintMsgToJS("info", "SetSourceMapRelease.message:" + args.message);
-  PrintMsgToJS("info", "SetSourceMapRelease.stack:" + args.stack);
+  OnBTSConsoleEvent("info", "SetSourceMapRelease.message:" + args.message);
+  OnBTSConsoleEvent("info", "SetSourceMapRelease.stack:" + args.stack);
   js_error_reporter_.SetSourceMapRelease(std::move(args));
 }
 
@@ -214,11 +214,11 @@ void QuickContext::ReportErrorWithMsg(const std::string& msg,
   }
 
   const auto& target_sdk_version = delegate_->TargetSdkVersion();
-  PrintMsgToJS("info",
-               "ReportErrorWithMsg.engine version:" + target_sdk_version);
+  OnBTSConsoleEvent("info",
+                    "ReportErrorWithMsg.engine version:" + target_sdk_version);
   if (tasm::Config::IsHigherOrEqual(target_sdk_version, LYNX_VERSION_2_7) &&
       debuginfo_outside_) {
-    PrintMsgToJS("info", "ReportErrorWithMsg.msg:" + msg);
+    OnBTSConsoleEvent("info", "ReportErrorWithMsg.msg:" + msg);
     auto error = js_error_reporter_.SendMTError(msg, error_code, error_level);
     if (error) {
       delegate_->ReportError(std::move(*error));

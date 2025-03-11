@@ -321,13 +321,6 @@ void TasmMediator::OnDataUpdatedByNative(tasm::TemplateData data,
   NotifyJSUpdatePageData();
 }
 
-void TasmMediator::PrintMsgToJS(const std::string& level,
-                                const std::string& msg) {
-  runtime_actor_->ActAsync([level, msg](auto& runtime) {
-    runtime->ConsoleLogWithLevel(level, msg);
-  });
-}
-
 void TasmMediator::OnI18nResourceChanged(const std::string& msg) {
   runtime_actor_->ActAsync(
       [msg](auto& runtime) { runtime->I18nResourceChanged(msg); });

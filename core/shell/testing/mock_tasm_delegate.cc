@@ -329,11 +329,6 @@ void MockTasmDelegate::OnLifecycleEvent(const lepus::Value& args) {
   ss_ << std::endl;
 }
 
-void MockTasmDelegate::PrintMsgToJS(const std::string& level,
-                                    const std::string& msg) {
-  ss_ << "PrintMsgToJS " << level << " " << msg << std::endl;
-}
-
 // timestamp & identifier will change when exec ut, so need to delete them when
 // recording.
 constexpr const static char* kTimeStamp = "timestamp";
@@ -597,6 +592,17 @@ event::DispatchEventResult MockTasmDelegate::DispatchMessageEvent(
     RemoveChangedItems(const_cast<lepus::Value&>(params));
     lepusValueToJSONString(ss_, params, true);
     ss_ << std::endl;
+  } else if (event.type() == runtime::kMessageEventTypeOnBTSConsoleEvent) {
+    EXPECT_TRUE(event.message().IsTable());
+    auto args = event.message().Table();
+    EXPECT_EQ(2, args->size());
+    BASE_STATIC_STRING_DECL(kFuncName, "func_name");
+    BASE_STATIC_STRING_DECL(kParams, "params");
+    EXPECT_TRUE(args->GetValue(kFuncName).IsString());
+    EXPECT_TRUE(args->GetValue(kParams).IsString());
+    const auto& func_name = args->GetValue(kFuncName).StdString();
+    const auto& params = args->GetValue(kParams).StdString();
+    ss_ << "PrintMsgToJS " << func_name << " " << params << std::endl;
   }
   return event::DispatchEventResult::kNotCanceled;
 }

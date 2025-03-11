@@ -1774,6 +1774,10 @@ void App::Init() {
           SendGlobalEvent(name, params);
         }
       }));
+  core_context_proxy->AddEventListener(
+      runtime::kMessageEventTypeOnBTSConsoleEvent,
+      std::make_unique<event::ClosureEventListener>(
+          [this](lepus::Value args) { OnBTSConsoleEvent(args); }));
 }
 
 void App::destroy() {
@@ -3149,19 +3153,23 @@ std::optional<lepus_value> App::ParseJSValueToLepusValue(
   return lepus::Value();
 }
 
-void App::ConsoleLogWithLevel(const std::string& level,
-                              const std::string& msg) {
+void App::OnBTSConsoleEvent(const lepus::Value& args) {
   auto rt = rt_.lock();
-  if (rt) {
+  if (rt && args.IsTable()) {
+    auto dict = args.Table();
+    BASE_STATIC_STRING_DECL(kFuncName, "func_name");
+    BASE_STATIC_STRING_DECL(kParams, "params");
+    auto func_name = dict->GetValue(kFuncName).StdString();
+    auto params = dict->GetValue(kParams).StdString();
     Scope scope(*rt.get());
     piper::Object global = rt->global();
     auto console = global.getProperty(*rt, "nativeConsole");
     if (console && console->isObject()) {
-      piper::Value msg_object(piper::String::createFromUtf8(*rt, msg));
+      piper::Value msg_object(piper::String::createFromUtf8(*rt, params));
 
       size_t count = 1;
       auto level_func =
-          console->getObject(*rt).getPropertyAsFunction(*rt, level.c_str());
+          console->getObject(*rt).getPropertyAsFunction(*rt, func_name.c_str());
       if (!level_func) {
         return;
       }

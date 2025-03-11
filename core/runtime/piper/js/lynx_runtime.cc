@@ -667,12 +667,6 @@ void LynxRuntime::EvaluateScriptStandalone(std::string url,
                 std::move(url));
 }
 
-void LynxRuntime::ConsoleLogWithLevel(const std::string& level,
-                                      const std::string& msg) {
-  QueueOrExecTask(
-      [this, level, msg] { app_->ConsoleLogWithLevel(level, msg); });
-}
-
 void LynxRuntime::I18nResourceChanged(const std::string& msg) {
   QueueOrExecTask([this, msg] { app_->I18nResourceChanged(msg); });
 }
