@@ -99,8 +99,12 @@ export default function HomePage(props: HomePageProps) {
   return (
     <view clip-radius="true" className={withTheme('page')}>
       <view className={withNotchScreen('page-header')}>
-        <image src={getIcon('Explorer')} className="logo" mode="aspectFit" />
-        <text className={withTheme('home-title')}>Lynx Explorer</text>
+        <image
+          src={getIcon('Explorer')}
+          className="logo"
+          mode="aspectFit"
+        />
+        <text className={withTheme('home-title')}>Lynx Go</text>
         <view className="scan">
           {(() => {
             if (SystemInfo.platform === 'iOS') {
