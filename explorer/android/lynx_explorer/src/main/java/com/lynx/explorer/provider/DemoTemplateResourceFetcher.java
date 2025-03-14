@@ -1,11 +1,11 @@
 // Copyright 2025 The Lynx Authors. All rights reserved.
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
-package com.lynx.explorer.provider;
+package com.funcs.io.lynx.go.provider;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
-import com.lynx.explorer.LynxViewShellActivity;
+import com.funcs.io.lynx.go.LynxViewShellActivity;
 import com.lynx.tasm.core.LynxThreadPool;
 import com.lynx.tasm.resourceprovider.LynxResourceCallback;
 import com.lynx.tasm.resourceprovider.LynxResourceRequest;

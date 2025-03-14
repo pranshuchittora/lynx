@@ -8,7 +8,7 @@ from lynx_e2e.api.app import LynxApp as LynxAppBase
 
 class LynxApp(LynxAppBase):
     app_spec = {
-        "package_name": "com.lynx.explorer",  # app package name
+        "package_name": "com.funcs.io.lynx.go",  # app package name
         "init_device": True,  # whether to wake up device
         "process_name": "",  # main process name of app
         "start_activity": ".LynxViewShellActivity",  # leave it empty to be detected automatically

@@ -1,7 +1,7 @@
 // Copyright 2024 The Lynx Authors. All rights reserved.
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
-package com.lynx.explorer.modules;
+package com.funcs.io.lynx.go.modules;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +14,9 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import com.lynx.devtoolwrapper.LynxDevtoolCardListener;
 import com.lynx.devtoolwrapper.LynxDevtoolGlobalHelper;
-import com.lynx.explorer.LynxViewShellActivity;
-import com.lynx.explorer.scan.QRScanActivity;
-import com.lynx.explorer.shell.TemplateDispatcher;
+import com.funcs.io.lynx.go.LynxViewShellActivity;
+import com.funcs.io.lynx.go.scan.QRScanActivity;
+import com.funcs.io.lynx.go.shell.TemplateDispatcher;
 import com.lynx.react.bridge.JavaOnlyMap;
 import com.lynx.react.bridge.WritableMap;
 import com.lynx.tasm.LynxEnv;

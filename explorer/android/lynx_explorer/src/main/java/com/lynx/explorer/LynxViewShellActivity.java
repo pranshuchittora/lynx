@@ -1,7 +1,7 @@
 // Copyright 2024 The Lynx Authors. All rights reserved.
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
-package com.lynx.explorer;
+package com.funcs.io.lynx.go;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,12 +26,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
-import com.lynx.explorer.input.LynxExplorerInput;
-import com.lynx.explorer.modules.LynxSettingManager;
-import com.lynx.explorer.provider.DemoGenericResourceFetcher;
-import com.lynx.explorer.provider.DemoMediaResourceFetcher;
-import com.lynx.explorer.provider.DemoTemplateResourceFetcher;
-import com.lynx.explorer.utils.QueryMapUtils;
+import com.funcs.io.lynx.go.input.LynxExplorerInput;
+import com.funcs.io.lynx.go.modules.LynxSettingManager;
+import com.funcs.io.lynx.go.provider.DemoGenericResourceFetcher;
+import com.funcs.io.lynx.go.provider.DemoMediaResourceFetcher;
+import com.funcs.io.lynx.go.provider.DemoTemplateResourceFetcher;
+import com.funcs.io.lynx.go.utils.QueryMapUtils;
 import com.lynx.tasm.LynxBooleanOption;
 import com.lynx.tasm.LynxView;
 import com.lynx.tasm.LynxViewBuilder;

@@ -1,7 +1,7 @@
 // Copyright 2024 The Lynx Authors. All rights reserved.
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
-package com.lynx.explorer;
+package com.funcs.io.lynx.go;
 
 import android.app.Application;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -9,9 +9,9 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.memory.PoolConfig;
 import com.facebook.imagepipeline.memory.PoolFactory;
 import com.lynx.devtool.recorder.LynxRecorderPageManager;
-import com.lynx.explorer.modules.LynxModuleAdapter;
-import com.lynx.explorer.provider.DemoTemplateProvider;
-import com.lynx.explorer.shell.LynxRecorderDefaultActionCallback;
+import com.funcs.io.lynx.go.modules.LynxModuleAdapter;
+import com.funcs.io.lynx.go.provider.DemoTemplateProvider;
+import com.funcs.io.lynx.go.shell.LynxRecorderDefaultActionCallback;
 import com.lynx.service.devtool.LynxDevToolService;
 import com.lynx.service.http.LynxHttpService;
 import com.lynx.service.image.LynxImageService;

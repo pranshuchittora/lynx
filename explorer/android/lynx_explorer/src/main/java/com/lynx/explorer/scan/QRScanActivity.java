@@ -1,7 +1,7 @@
 // Copyright 2024 The Lynx Authors. All rights reserved.
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
-package com.lynx.explorer.scan;
+package com.funcs.io.lynx.go.scan;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -18,8 +18,8 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.DefaultDecoderFactory;
-import com.lynx.explorer.R;
-import com.lynx.explorer.shell.TemplateDispatcher;
+import com.funcs.io.lynx.go.R;
+import com.funcs.io.lynx.go.shell.TemplateDispatcher;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;

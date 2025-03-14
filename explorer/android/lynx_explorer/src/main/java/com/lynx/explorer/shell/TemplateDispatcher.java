@@ -1,14 +1,14 @@
 // Copyright 2024 The Lynx Authors. All rights reserved.
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
-package com.lynx.explorer.shell;
+package com.funcs.io.lynx.go.shell;
 
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
-import com.lynx.explorer.LynxViewShellActivity;
-import com.lynx.explorer.utils.QueryMapUtils;
+import com.funcs.io.lynx.go.LynxViewShellActivity;
+import com.funcs.io.lynx.go.utils.QueryMapUtils;
 import com.lynx.tasm.LynxLoadMeta;
 import com.lynx.tasm.LynxView;
 import java.util.HashMap;
