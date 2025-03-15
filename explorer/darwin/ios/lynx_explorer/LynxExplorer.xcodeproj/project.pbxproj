@@ -121,6 +121,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		0B19FE6493C2B6259F1CDA18 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7C7580BC77DF6C19AE2629B3 /* libPods-LynxExplorer.a */,
+				BB21AA714C5B36DB180CC360 /* libPods-LynxExplorerTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2B06C8412D34FF7C008D40DD /* input */ = {
 			isa = PBXGroup;
 			children = (
@@ -655,7 +664,7 @@
 				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025.3.15;
+				CURRENT_PROJECT_VERSION = 2025.3.16;
 				DEVELOPMENT_TEAM = N2LHFY8LXC;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -691,7 +700,7 @@
 				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025.3.15;
+				CURRENT_PROJECT_VERSION = 2025.3.16;
 				DEVELOPMENT_TEAM = N2LHFY8LXC;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
