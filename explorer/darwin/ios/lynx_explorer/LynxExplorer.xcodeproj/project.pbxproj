@@ -121,15 +121,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		0B19FE6493C2B6259F1CDA18 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				7C7580BC77DF6C19AE2629B3 /* libPods-LynxExplorer.a */,
-				BB21AA714C5B36DB180CC360 /* libPods-LynxExplorerTests.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		2B06C8412D34FF7C008D40DD /* input */ = {
 			isa = PBXGroup;
 			children = (
