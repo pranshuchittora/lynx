@@ -155,6 +155,14 @@ export default function HomePage(props: HomePageProps) {
             Go
           </text>
         </view>
+        {lynx.__globalProps.platform !== 'iOS' && (
+          <view className={withTheme('scan-card')} bindtap={openScan}>
+            <image src={getIcon('Scan')} className="scan-icon" />
+            <text className={withTheme('text')} style="margin-left: 1.5%;">
+              Scan QR Code
+            </text>
+          </view>
+        )}
       </view>
 
       <view

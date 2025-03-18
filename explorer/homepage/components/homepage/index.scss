@@ -2,7 +2,7 @@
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
 
-@import "../shared";
+@import '../shared';
 
 .logo {
   display: flex;
@@ -13,7 +13,7 @@
 .home-title__dark {
   @include title;
   margin-left: 6px;
-  color: var(--title-dark)
+  color: var(--title-dark);
 }
 
 .home-title__light {
@@ -30,26 +30,38 @@
 }
 
 .scan-icon {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
 }
 
-.input-card-url__light {
+.input-card__light {
   @include box;
   flex-direction: column;
-  height: 24%;
   justify-content: center;
-  margin-bottom: 3%;
+  margin-bottom: 20px;
   background: var(--box-light);
 }
 
-.input-card-url__dark {
+.input-card__dark {
   @include box;
   flex-direction: column;
-  height: 24%;
   justify-content: center;
-  margin-bottom: 3%;
+  margin-bottom: 20px;
   background: var(--box-dark);
+}
+
+.input-card-url__light {
+  flex-direction: column;
+  justify-content: center;
+  background: var(--box-light);
+  margin-bottom: 10px;
+}
+
+.input-card-url__dark {
+  flex-direction: column;
+  justify-content: center;
+  background: var(--box-dark);
+  margin-bottom: 10px;
 }
 
 .input-box {
@@ -58,23 +70,46 @@
   margin: 0% 5% 5% 5%;
   border-width: 0px 0px 1px;
   border-color: #0000000a;
-  height: 20%;
+  height: 22px;
   width: 90%;
 }
 
+.scan-card__light {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 3%;
+  padding-right: 3%;
+  align-items: center;
+  background: var(--box-light);
+  border-top: #cccccc57 1px solid;
+}
+
+.scan-card__dark {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 3%;
+  padding-right: 3%;
+  align-items: center;
+  background: var(--box-dark);
+  gap: 5px;
+  border-top: #55555557 1px solid;
+}
+
 .bold-text__light {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   height: 20%;
   margin: 5%;
 }
 
 .bold-text__dark {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   height: 20%;
   margin: 5%;
-  color: var(--text-dark)
+  color: var(--text-dark);
 }
 
 @mixin connect-button {
@@ -82,8 +117,8 @@
   align-items: center;
   justify-content: center;
   margin: 1% 5% 5% 5%;
-  border-radius: 8px;
-  height: 28%;
+  border-radius: 4px;
+  padding: 8px 0;
   width: 90%;
 }
 
@@ -101,16 +136,16 @@
   @include box;
   margin-top: 0px;
   margin-bottom: 0px;
-  height: 8%;
   background: var(--box-light);
+  padding: 10px 0;
 }
 
 .showcase__dark {
   @include box;
   margin-top: 0px;
   margin-bottom: 0px;
-  height: 8%;
   background: var(--box-dark);
+  padding: 10px 0;
 }
 
 .showcase-icon {
