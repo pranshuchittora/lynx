@@ -106,21 +106,14 @@ export default function HomePage(props: HomePageProps) {
         />
         <text className={withTheme('home-title')}>Lynx Go</text>
         <view className="scan">
-          {(() => {
-            if (SystemInfo.platform === 'iOS') {
-              return <></>;
-            }
-            return (
-              <image
-                src={getIcon('Scan')}
-                className="scan-icon"
-                bindtap={openScan}
-                accessibility-element={true}
-                accessibility-label="Open Scan"
-                accessibility-traits="button"
-              />
-            );
-          })()}
+          <image
+            src={getIcon('Scan')}
+            className="scan-icon"
+            bindtap={openScan}
+            accessibility-element={true}
+            accessibility-label="Open Scan"
+            accessibility-traits="button"
+          />
         </view>
       </view>
 
