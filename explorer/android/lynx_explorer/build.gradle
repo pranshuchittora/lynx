@@ -14,8 +14,8 @@ android {
         applicationId "com.funcs.io.lynx.go"
         minSdkVersion 24
         targetSdkVersion 35
-        versionCode 2025112504
-        versionName "2025.11.25"
+        versionCode 2026010301
+        versionName "2026.01.03"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
