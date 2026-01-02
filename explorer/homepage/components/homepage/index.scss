@@ -54,14 +54,16 @@
   flex-direction: column;
   justify-content: center;
   background: var(--box-light);
-  margin-bottom: 10px;
+  margin: 0 10px 10px;
+  border-radius: 4px;
 }
 
 .input-card-url__dark {
   flex-direction: column;
   justify-content: center;
   background: var(--box-dark);
-  margin-bottom: 10px;
+  margin: 0 10px 10px;
+  border-radius: 4px;
 }
 
 .input-box {
@@ -83,6 +85,7 @@
   align-items: center;
   background: var(--box-light);
   border-top: #cccccc57 1px solid;
+  border-radius: 4px;
 }
 
 .scan-card__dark {
@@ -95,6 +98,7 @@
   background: var(--box-dark);
   gap: 5px;
   border-top: #55555557 1px solid;
+  border-radius: 4px;
 }
 
 .bold-text__light {
@@ -134,18 +138,18 @@
 
 .showcase__light {
   @include box;
-  margin-top: 0px;
-  margin-bottom: 0px;
   background: var(--box-light);
+  width: auto;
   padding: 10px 0;
+  margin: 0 10px;
 }
 
 .showcase__dark {
   @include box;
-  margin-top: 0px;
-  margin-bottom: 0px;
   background: var(--box-dark);
+  width: auto;
   padding: 10px 0;
+  margin: 0 10px;
 }
 
 .showcase-icon {
