@@ -5,7 +5,10 @@
 import { LLog, LynxModule } from '@lynx/lynx';
 import { LynxRecorderEnv } from '@lynx/lynx_devtool';
 import router from '@ohos.router';
+import preferences from '@ohos.data.preferences';
 import Constants from '../common/constants';
+
+const PREFERENCES_NAME = 'lynx_explorer_storage';
 
 const TAG = 'ExplorerModule'
 
@@ -35,5 +38,30 @@ export class ExplorerModule extends LynxModule {
     }).catch((error: Error) => {
       LLog.d(TAG, 'openSchema error, ' + JSON.stringify(error));
     });
+  }
+
+  public saveToLocalStorage(key: string, value: string): void {
+    try {
+      const context = getContext(this);
+      const pref = preferences.getPreferencesSync(context, { name: PREFERENCES_NAME });
+      pref.putSync(key, value);
+      pref.flush();
+      LLog.d(TAG, 'saveToLocalStorage succeed for key: ' + key);
+    } catch (error) {
+      LLog.d(TAG, 'saveToLocalStorage error: ' + JSON.stringify(error));
+    }
+  }
+
+  public readFromLocalStorage(key: string): string | null {
+    try {
+      const context = getContext(this);
+      const pref = preferences.getPreferencesSync(context, { name: PREFERENCES_NAME });
+      const value = pref.getSync(key, null);
+      LLog.d(TAG, 'readFromLocalStorage succeed for key: ' + key);
+      return value as string | null;
+    } catch (error) {
+      LLog.d(TAG, 'readFromLocalStorage error: ' + JSON.stringify(error));
+      return null;
+    }
   }
 }

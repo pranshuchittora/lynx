@@ -2,7 +2,7 @@
 // Licensed under the Apache License Version 2.0 that can be found in the
 // LICENSE file in the root directory of this source tree.
 
-import { useState } from '@lynx-js/react';
+import { useState, useEffect } from '@lynx-js/react';
 import './index.scss';
 
 import ExplorerIconDark from '@assets/images/explorer-dark.png?inline';
@@ -14,6 +14,9 @@ import ScanIcon from '@assets/images/scan.png?inline';
 import ShowcaseIcon from '@assets/images/showcase.png?inline';
 import type { InputEvent } from '../../typing';
 
+const RECENT_URLS_KEY = 'recentUrls';
+const MAX_RECENT_URLS = 5;
+
 interface HomePageProps {
   showPage: boolean;
   currentTheme: string;
@@ -23,6 +26,55 @@ interface HomePageProps {
 
 export default function HomePage(props: HomePageProps) {
   const [inputValue, setInputValue] = useState('');
+  const [recentUrls, setRecentUrls] = useState<string[]>([]);
+
+  useEffect(() => {
+    'background only';
+    try {
+      const stored =
+        NativeModules.ExplorerModule.readFromLocalStorage(RECENT_URLS_KEY);
+      if (stored) {
+        const urls = JSON.parse(stored) as string[];
+        setRecentUrls(urls);
+      }
+    } catch {
+      // Ignore parse errors
+    }
+  }, []);
+
+  const saveRecentUrl = (url: string) => {
+    'background only';
+    if (!url || url.length === 0) {
+      return;
+    }
+    const filtered = recentUrls.filter((u) => u !== url);
+    const updated = [url, ...filtered].slice(0, MAX_RECENT_URLS);
+    setRecentUrls(updated);
+    try {
+      NativeModules.ExplorerModule.saveToLocalStorage(
+        RECENT_URLS_KEY,
+        JSON.stringify(updated)
+      );
+    } catch {
+      // Ignore save errors
+    }
+  };
+
+  const clearRecentUrls = () => {
+    'background only';
+    setRecentUrls([]);
+    try {
+      NativeModules.ExplorerModule.saveToLocalStorage(RECENT_URLS_KEY, '[]');
+    } catch {
+      // Ignore save errors
+    }
+  };
+
+  const openRecentUrl = (url: string) => {
+    'background only';
+    saveRecentUrl(url);
+    NativeModules.ExplorerModule.openSchema(url);
+  };
 
   const icons = {
     Scan: {
@@ -49,6 +101,7 @@ export default function HomePage(props: HomePageProps) {
   const openSchema = () => {
     'background only';
     if (inputValue && inputValue.length > 0) {
+      saveRecentUrl(inputValue);
       NativeModules.ExplorerModule.openSchema(inputValue);
     }
   };
@@ -99,11 +152,7 @@ export default function HomePage(props: HomePageProps) {
   return (
     <view clip-radius="true" className={withTheme('page')}>
       <view className={withNotchScreen('page-header')}>
-        <image
-          src={getIcon('Explorer')}
-          className="logo"
-          mode="aspectFit"
-        />
+        <image src={getIcon('Explorer')} className="logo" mode="aspectFit" />
         <text className={withTheme('home-title')}>Lynx Go</text>
         <view className="scan">
           <image
@@ -173,6 +222,44 @@ export default function HomePage(props: HomePageProps) {
           <image src={getIcon('Forward')} className="forward-icon" />
         </view>
       </view>
+      {recentUrls.length > 0 && (
+        <view className={withTheme('recent-section')}>
+          <view className="recent-header">
+            <text className={withTheme('recent-title')}>Recent</text>
+            <text
+              className={withTheme('clear-button')}
+              bindtap={clearRecentUrls}
+              accessibility-element={true}
+              accessibility-label="Clear recent URLs"
+              accessibility-traits="button"
+            >
+              Clear
+            </text>
+          </view>
+          <view className="recent-list">
+            {recentUrls.map((url, index) => (
+              <view
+                key={index}
+                className={withTheme('recent-item')}
+                bindtap={() => openRecentUrl(url)}
+                accessibility-element={true}
+                accessibility-label={`Open ${url}`}
+                accessibility-traits="button"
+              >
+                <text
+                  className={withTheme('recent-url-text')}
+                  accessibility-element={false}
+                >
+                  {url}
+                </text>
+                <view style="margin-left: auto; justify-content: center">
+                  <image src={getIcon('Forward')} className="forward-icon" />
+                </view>
+              </view>
+            ))}
+          </view>
+        </view>
+      )}
     </view>
   );
 }

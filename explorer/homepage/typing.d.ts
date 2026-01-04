@@ -25,6 +25,15 @@ declare global {
        */
       openDevtoolSwitchPage(): void;
       saveThemePreferences(key: string, value: string): void;
+      /**
+       * Save a string value to persistent local storage.
+       */
+      saveToLocalStorage(key: string, value: string): void;
+      /**
+       * Read a string value from persistent local storage.
+       * Returns null if the key doesn't exist.
+       */
+      readFromLocalStorage(key: string): string | null;
     };
   };
 }
